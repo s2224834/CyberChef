@@ -82,6 +82,7 @@ import "./tests/operations/TranslateDateTimeFormat";
 import "./tests/operations/Magic";
 import "./tests/operations/ParseTLV";
 import "./tests/operations/Media";
+import "./tests/operations/Enigma";
 
 // Cannot test operations that use the File type yet
 //import "./tests/operations/SplitColourChannels";
