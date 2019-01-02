@@ -6,7 +6,9 @@ docs/*
 !docs/*.conf.json
 !docs/*.ico
 .vscode
+.*.swp
 src/core/config/modules/*
 src/core/config/OperationConfig.json
 src/core/operations/index.mjs
-.*.swp
+tests/browser/output/*
+
