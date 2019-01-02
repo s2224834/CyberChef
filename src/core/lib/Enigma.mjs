@@ -41,7 +41,7 @@ export const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
  * @param {boolean} permissive - Case insensitive; don't throw errors on other chars.
  * @returns {number}
  */
-function a2i(c, permissive=false) {
+export function a2i(c, permissive=false) {
     const i = Utils.ord(c);
     if (i >= 65 && i <= 90) {
         return i - 65;
@@ -62,7 +62,7 @@ function a2i(c, permissive=false) {
  * @param {number} i
  * @returns {char}
  */
-function i2a(i) {
+export function i2a(i) {
     if (i >= 0 && i < 26) {
         return Utils.chr(i+65);
     }
@@ -196,6 +196,16 @@ class PairMapBase {
         }
         return this.map[c];
     }
+
+    /**
+     * Alias for transform, to allow interchangeable use with rotors.
+     *
+     * @param {number} c - The character.
+     * @returns {number}
+     */
+    revTransform(c) {
+        return this.transform(c);
+    }
 }
 
 /**
@@ -228,20 +238,17 @@ export class Plugboard extends PairMapBase {
 }
 
 /**
- * The Enigma machine itself. Holds 3-4 rotors, a reflector, and a plugboard.
+ * Base class for the Enigma machine itself. Holds rotors, a reflector, and a plugboard.
  */
-export class EnigmaMachine {
+export class EnigmaBase {
     /**
-     * EnigmaMachine constructor.
+     * EnigmaBase constructor.
      *
      * @param {Object[]} rotors - List of Rotors.
      * @param {Object} reflector - A Reflector.
      * @param {Plugboard} plugboard - A Plugboard.
      */
     constructor(rotors, reflector, plugboard) {
-        if (rotors.length !== 3 && rotors.length !== 4) {
-            throw new OperationError("Enigma must have 3 or 4 rotors");
-        }
         this.rotors = rotors;
         this.rotorsRev = [].concat(rotors).reverse();
         this.reflector = reflector;
@@ -306,10 +313,28 @@ export class EnigmaMachine {
                 letter = rotor.revTransform(letter);
             }
             // Finally, back through the plugboard.
-            letter = this.plugboard.transform(letter);
+            letter = this.plugboard.revTransform(letter);
             result += i2a(letter);
         }
         return result;
     }
 }
 
+/**
+ * The Enigma machine itself. Holds 3-4 rotors, a reflector, and a plugboard.
+ */
+export class EnigmaMachine extends EnigmaBase {
+    /**
+     * EnigmaMachine constructor.
+     *
+     * @param {Object[]} rotors - List of Rotors.
+     * @param {Object} reflector - A Reflector.
+     * @param {Plugboard} plugboard - A Plugboard.
+     */
+    constructor(rotors, reflector, plugboard) {
+        super(rotors, reflector, plugboard);
+        if (rotors.length !== 3 && rotors.length !== 4) {
+            throw new OperationError("Enigma must have 3 or 4 rotors");
+        }
+    }
+}
