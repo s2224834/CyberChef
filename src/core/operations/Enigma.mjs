@@ -144,7 +144,7 @@ class Enigma extends Operation {
                 // No fourth rotor
                 break;
             }
-            const [rotorwiring, rotorsteps] = this.parseRotorStr(args[i*3], 1);
+            const [rotorwiring, rotorsteps] = this.parseRotorStr(args[i*3], i);
             rotors.push(new Rotor(rotorwiring, rotorsteps, args[i*3 + 1], args[i*3 + 2]));
         }
         const reflector = new Reflector(reflectorstr);
