@@ -51,10 +51,12 @@ class App {
      */
     setup() {
         document.dispatchEvent(this.manager.appstart);
+
         this.initialiseSplitter();
         this.loadLocalStorage();
         this.populateOperationsList();
         this.manager.setup();
+        this.manager.output.saveBombe();
         this.resetLayout();
         this.setCompileMessage();
 
@@ -121,6 +123,9 @@ class App {
 
         // Reset attemptHighlight flag
         this.options.attemptHighlight = true;
+
+        // Remove all current indicators
+        this.manager.recipe.updateBreakpointIndicator(false);
 
         this.manager.worker.bake(
             this.getInput(),        // The user's input

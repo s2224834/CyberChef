@@ -103,7 +103,9 @@
             "Citrix CTX1 Encode",
             "Citrix CTX1 Decode",
             "Pseudo-Random Number Generator",
-            "Enigma"
+            "Enigma",
+            "Bombe",
+            "Multiple Bombe"
         ]
     },
     {
